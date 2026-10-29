@@ -1,7 +1,10 @@
 <?php
-$current_category = $block->getCurrentCategory();
-if ($_bottomDescription = $current_category->getBottomDescription()): ?>
+/** @var \Magelearn\CustomInfo\Block\Info $block */
+$bottomDescription = $block->getBottomDescriptionHtml();
+
+if ($bottomDescription):
+    ?>
     <div class="category-bottom-description">
-        <?= /* @escapeNotVerified */ $this->helper('Magento\Catalog\Helper\Output')->categoryAttribute($block->getCurrentCategory(), $_bottomDescription, 'bottom_description') ?>
+        <?= /* @noEscape */ $bottomDescription ?>
     </div>
 <?php endif; ?>

@@ -1,7 +1,8 @@
-<?xml version="1.0" ?>
-<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+<?xml version="1.0"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <fieldset name="content">
-        <field name="bottom_description" template="ui/form/field" sortOrder="60" formElement="wysiwyg">
+        <field name="bottom_description" sortOrder="60" formElement="wysiwyg">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="wysiwygConfigData" xsi:type="array">

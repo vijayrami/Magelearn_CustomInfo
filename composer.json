@@ -1,20 +1,17 @@
 {
-    "name": "magelearn/module-CustomInfo",
-    "description": "Magento2 add extra category description on product list page by adding textarea as a category EAV attribute",
+    "name": "magelearn/module-custom-info",
+    "description": "Adds a store-scoped bottom category description and displays it on the category product listing page.",
     "type": "magento2-module",
     "license": "OSL-3.0",
     "authors": [
         {
-            "email": "info@mage2gen.com",
-            "name": "Mage2Gen"
-        },
-        {
-            "email": "vijaymrami@gmail.com",
-            "name": "vijay rami"
+            "name": "Vijay Rami",
+            "email": "vijaymrami@gmail.com"
         }
     ],
-    "minimum-stability": "dev",
-    "require": {},
+    "require": {
+        "php": ">=8.1"
+    },
     "autoload": {
         "files": [
             "registration.php"

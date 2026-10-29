@@ -1,58 +1,64 @@
 <?php
-/**
- * Copyright © 2013-2017 Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
 
-/**
- * Product description block
- *
- * @author     Magento Core Team <core@magentocommerce.com>
- */
+declare(strict_types=1);
+
 namespace Magelearn\CustomInfo\Block;
 
-class Info extends \Magento\Framework\View\Element\Template
+use Magento\Catalog\Model\Category;
+use Magento\Catalog\Helper\Output as CatalogOutput;
+use Magento\Catalog\Model\Layer\Resolver as LayerResolver;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template\Context;
+
+class Info extends Template
 {
-    /**
-     * @var Product
-     */
-    protected $_category = null;
+    private ?Category $category = null;
 
-    /**
-     * Core registry
-     *
-     * @var \Magento\Framework\Registry
-     */
-    protected $_coreRegistry = null;
-
-    /**
-     * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Framework\Registry $registry
-     * @param array $data
-     */
     public function __construct(
-        \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Framework\Registry $registry,
+        Context $context,
+        private readonly LayerResolver $layerResolver,
+        private readonly CatalogOutput $catalogOutput,
         array $data = []
-    )
-    {
-        $this->_coreRegistry = $registry;
+    ) {
         parent::__construct($context, $data);
     }
-    /**
-     * Retrieve current category model object
-     *
-     * @return \Magento\Catalog\Model\Category
-     */
-    public function getCurrentCategory()
-    {
-        if (!$this->_category) {
-            $this->_category = $this->_coreRegistry->registry('current_category');
 
-            if (!$this->_category) {
-                throw new \Magento\Framework\Exception\LocalizedException(__('Category object could not be found in core registry'));
-            }
+    public function getBottomDescriptionHtml(): string
+    {
+        $category = $this->getCurrentCategory();
+        $description = (string) $category->getData('bottom_description');
+
+        if ($description === '') {
+            return '';
         }
-        return $this->_category;
+
+        return (string) $this->catalogOutput->categoryAttribute(
+            $category,
+            $description,
+            'bottom_description'
+        );
+    }
+
+    /**
+     * Retrieve the current category from the catalog layer.
+     *
+     * @throws LocalizedException If the current category cannot be resolved.
+     */
+    public function getCurrentCategory(): Category
+    {
+        if ($this->category === null) {
+            $category = $this->layerResolver->get()->getCurrentCategory();
+
+            if (!$category->getId()) {
+                throw new LocalizedException(
+                    __('Category object could not be found.')
+                );
+            }
+
+            $this->category = $category;
+        }
+
+        return $this->category;
     }
 }
