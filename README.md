@@ -74,16 +74,6 @@ The field is a WYSIWYG editor and is store-scoped.
 
 On a category view page, the module obtains the current category from Magento's catalog layer and renders the `bottom_description` attribute below the category product listing.
 
-The module does **not** use:
-
-```php
-Magento\Framework\Registry
-```
-
-or:
-
-```php
-$registry->registry('current_category');
 ```
 
 The category is obtained through:
